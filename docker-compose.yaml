@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 'Postgres2019!'
+    ports:
+      - '15432:5432'
+    volumes:
+      - PostgreSQLData:/var/lib/postgresql/data
+
+  sonarqube:
+    image: bitnami/sonarqube:latest
+    ports:
+      - '9999:9000'
+    environment:
+      - POSTGRESQL_HOST=postgres
+      - POSTGRESQL_PORT_NUMBER=5432
+      - POSTGRESQL_ROOT_USER=postgres
+      - POSTGRESQL_ROOT_PASSWORD=Postgres2019!
+      - POSTGRESQL_CLIENT_CREATE_DATABASE_NAME=bitnami_sonarqube
+      - POSTGRESQL_CLIENT_CREATE_DATABASE_USERNAME=sonarsql
+      - POSTGRESQL_CLIENT_CREATE_DATABASE_PASSWORD=sonarSql2019!
+      - SONARQUBE_DATABASE_NAME=bitnami_sonarqube
+      - SONARQUBE_DATABASE_USER=sonarsql
+      - SONARQUBE_DATABASE_PASSWORD=sonarSql2019!
+    volumes:
+      - SonarqubeData:/bitnami
+    depends_on:
+      - postgres
+
+volumes:
+  PostgreSQLData:
+  SonarqubeData:
